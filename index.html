@@ -2,7 +2,8 @@
 <html lang="th">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- บังคับให้มือถือแสดงผลเต็มความกว้างโปสเตอร์ เพื่อป้องกันเลย์เอาต์เพี้ยนและสามารถใช้นิ้วซูมได้ -->
+    <meta name="viewport" content="width=1160">
     <title>Impacts of Climate Change on Rainfall in U-tapao River Basin</title>
     <!-- โหลดฟอนต์ภาษาไทยจาก Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600;700&family=Sarabun:wght@400;600&display=swap" rel="stylesheet">
@@ -14,46 +15,35 @@
 
     <style>
         :root {
-            --primary-color: #1e3a8a; /* น้ำเงินเข้ม */
-            --secondary-color: #0284c7; /* ฟ้าสว่าง */
-            --accent-color: #ea580c; /* ส้ม สำหรับไฮไลท์ */
+            --primary-color: #1e3a8a;
+            --secondary-color: #0284c7;
+            --accent-color: #ea580c;
             --text-main: #1e293b;
             --box-bg: #ffffff; 
-            --gap-size: 12px; /* ลดระยะห่างลงเล็กน้อยเพื่อลดการเบียดทับ */
+            --gap-size: 12px; /* ลดช่องว่างลงเล็กน้อยเพื่อเพิ่มพื้นที่เนื้อหา */
             --ai-color: #7c3aed;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
-        /* ปรับปรุงพื้นหลังให้รองรับการเลื่อนบนมือถือ */
         body {
             font-family: 'Sarabun', sans-serif;
             background: linear-gradient(135deg, #334155, #0f172a); 
             color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            overflow-x: hidden;
-            padding: 0;
+            padding: 20px 0;
         }
 
-        /* Container หลักสำหรับครอบโปสเตอร์เพื่อใช้ในการ Scale */
-        .page-wrapper {
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            width: 100%;
-        }
-
-        /* โครงสร้างโปสเตอร์ (คงที่ที่ขนาด A3 สำหรับการส่งออก) */
+        /* โครงสร้างโปสเตอร์ขนาด A3 เป๊ะๆ */
         .poster-container {
             width: 1122px;
             height: 1587px;
             background: linear-gradient(120deg, #dbeafe 0%, #cffafe 50%, #d1fae5 100%);
-            box-shadow: 0 10px 60px rgba(0,0,0,0.8);
-            padding: 22px; 
+            box-shadow: 0 15px 50px rgba(0,0,0,0.6);
+            padding: 24px; 
             display: flex;
             flex-direction: column;
             gap: var(--gap-size); 
@@ -64,21 +54,26 @@
             background-color: white;
             print-color-adjust: exact;
             -webkit-print-color-adjust: exact;
-            transform-origin: top center;
+            margin: 0 auto;
         }
 
-        /* --- Rainy Pattern Elements --- */
+        /* ตกแต่งพื้นหลัง */
+        .poster-container::before {
+            content: ""; position: absolute; top: -100px; right: -100px; width: 500px; height: 500px;
+            background: rgba(56, 189, 248, 0.3); filter: blur(60px); border-radius: 50%; z-index: 0;
+        }
+        .poster-container::after {
+            content: ""; position: absolute; bottom: -150px; left: -50px; width: 600px; height: 600px;
+            background: rgba(52, 211, 153, 0.25); filter: blur(70px); border-radius: 50%; z-index: 0;
+        }
+
         .rain-overlay {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none;
-            z-index: 0;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 0;
         }
         .drop {
-            position: absolute;
-            background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0.6) 100%);
-            width: 2px; height: 60px; top: -100px;
-            animation: fall linear infinite;
+            position: absolute; background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0.6) 100%);
+            width: 2px; height: 60px; top: -100px; animation: fall linear infinite;
         }
         @keyframes fall { to { transform: translateY(1700px); } }
 
@@ -87,41 +82,40 @@
         /* ============ ส่วนหัว ============ */
         .header {
             background: linear-gradient(135deg, #1e3a8a, #0284c7, #0d9488); color: white;
-            padding: 14px; text-align: center; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            padding: 16px; text-align: center; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.15);
             border: 1px solid rgba(255,255,255,0.2); flex-shrink: 0;
         }
-        .header h1 { font-family: 'Prompt', sans-serif; font-size: 1.85rem; margin-bottom: 4px; line-height: 1.2; }
-        .header h2 { font-family: 'Prompt', sans-serif; font-size: 1.1rem; color: #cffafe; }
+        .header h1 { font-family: 'Prompt', sans-serif; font-size: 1.85rem; margin-bottom: 4px; line-height: 1.2; text-shadow: 1px 1px 3px rgba(0,0,0,0.3); }
+        .header h2 { font-family: 'Prompt', sans-serif; font-size: 1.1rem; font-weight: 400; margin-bottom: 6px; color: #cffafe; }
         .authors { font-size: 0.95rem; margin-bottom: 0; }
         .advisor { font-size: 0.85rem; font-weight: 300; }
 
         /* ============ เลย์เอาต์หลัก ============ */
         .main-layout { display: flex; gap: var(--gap-size); flex: 1; min-height: 0; }
-        .sidebar { width: 33%; display: flex; flex-direction: column; gap: var(--gap-size); flex-shrink: 0; }
-        .main-content { flex: 1; display: flex; flex-direction: column; gap: var(--gap-size); min-width: 0; }
-        .content-top-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap-size); flex: 1.6; min-height: 0; }
+        .sidebar { width: 33%; display: flex; flex-direction: column; gap: var(--gap-size); flex-shrink: 0; min-height: 0; }
+        .main-content { flex: 1; display: flex; flex-direction: column; gap: var(--gap-size); min-width: 0; min-height: 0; }
+        
+        .content-top-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap-size); flex: 1.5; min-height: 0; }
         .mid-col, .right-col { display: flex; flex-direction: column; gap: var(--gap-size); min-height: 0; }
 
-        /* ============ กล่องเนื้อหา ============ */
+        /* ============ กล่องเนื้อหา (Section) ============ */
         .section {
-            background-color: rgba(255, 255, 255, 0.9); 
-            border-radius: 8px; 
-            padding: 10px 12px; /* ลด Padding เพื่อไม่ให้กินขอบ */
+            background-color: rgba(255, 255, 255, 0.95); border-radius: 8px; padding: 12px 14px; 
             box-shadow: 0 3px 8px rgba(0,0,0,0.06); border-top: 4px solid var(--secondary-color);
             border: 1px solid #e2e8f0; display: flex; flex-direction: column;
-            min-height: 0; position: relative; backdrop-filter: blur(2px);
+            min-height: 0; position: relative; overflow: hidden; /* กันเนื้อหาล้น */
         }
 
-        /* ปุ่มขยายข้อความ */
+        .normal-content {
+            display: flex; flex-direction: column; flex: 1; min-height: 0; 
+        }
+
         .text-expand-btn {
-            position: absolute;
-            bottom: 6px; right: 6px;
-            background: rgba(148, 163, 184, 0.1);
-            color: #64748b; border: 1px solid #cbd5e1;
-            width: 28px; height: 28px; 
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-size: 12px; cursor: pointer; z-index: 50;
-            opacity: 0.4; transition: all 0.2s;
+            position: absolute; bottom: 6px; right: 6px;
+            background: rgba(148, 163, 184, 0.1); color: #94a3b8; border: 1px solid #e2e8f0;
+            width: 26px; height: 26px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 12px; cursor: pointer; z-index: 50; opacity: 0.5; transition: all 0.2s;
         }
         .text-expand-btn:hover { opacity: 1; color: var(--accent-color); transform: scale(1.1); border-color: var(--accent-color); }
 
@@ -129,111 +123,118 @@
 
         .section-title {
             font-family: 'Prompt', sans-serif; font-size: 0.95rem; color: var(--primary-color);
-            margin-bottom: 6px; padding-bottom: 4px; border-bottom: 1.5px solid #cbd5e1; 
-            display: flex; align-items: center; gap: 6px; font-weight: 700;
+            margin-bottom: 6px; padding-bottom: 4px; border-bottom: 1.5px solid #cbd5e1; display: flex; align-items: center; gap: 6px; font-weight: 700; flex-shrink: 0;
         }
         .section-title::before { content: "✦"; color: var(--accent-color); font-size: 1.1rem; }
 
-        p, ul, ol { font-size: 0.8rem; line-height: 1.4; margin-bottom: 4px; color: #334155; }
+        p, ul, ol { font-size: 0.78rem; line-height: 1.4; margin-bottom: 4px; color: #334155; }
+        ul, ol { padding-left: 18px; }
+        li { margin-bottom: 2px; }
         .highlight { color: var(--accent-color); font-weight: 700; background-color: #ffedd5; padding: 0 4px; border-radius: 3px; }
 
-        /* ============ รูปภาพและตาราง ============ */
-        .content-image { width: 100%; border-radius: 6px; display: block; object-fit: contain; cursor: zoom-in; position: relative; z-index: 5; }
-        .data-table {
-            width: 100%; border-collapse: collapse; font-size: 0.72rem; 
-            background: white; border-radius: 6px; overflow: hidden;
-            position: relative; z-index: 5;
-        }
-        .data-table th, .data-table td { border: 1px solid #cbd5e1; padding: 3px 4px; text-align: center; }
-        .data-table th { background-color: var(--primary-color); color: white; font-family: 'Prompt', sans-serif; font-weight: 400; }
-        .data-table td.trend-up { color: #dc2626; font-weight: 600; }
+        /* ============ รูปภาพ ============ */
+        /* ใช้ min-height: 0 เพื่อให้รูปย่อตัวอัตโนมัติไม่ดันกล่องทะลุ */
+        .content-image { width: 100%; border-radius: 6px; border: 1px solid #e2e8f0; display: block; object-fit: contain; background: #ffffff; cursor: zoom-in; position: relative; z-index: 5; min-height: 0; flex: 1; }
+        
+        .img-wrapper { display: flex; flex-direction: column; align-items: center; flex: 1; min-height: 0; }
+        .img-label { font-size: 0.65rem; font-weight: 700; color: var(--primary-color); margin-bottom: 2px; flex-shrink: 0;}
+        
+        .grid-label { font-size: 0.55rem; font-weight: 600; display: block; text-align: center; color: var(--primary-color); line-height: 1.1; margin-top: 2px; flex-shrink: 0;}
 
-        .idw-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 2px; }
-        .idw-img { width: 100%; height: 55px; object-fit: contain; border: 1px solid #cbd5e1; background: white; cursor: zoom-in; border-radius: 4px; position: relative; z-index: 5; }
-        .grid-img { width: 100%; height: 55px; object-fit: contain; border: 1px solid #cbd5e1; background: white; cursor: zoom-in; border-radius: 4px; position: relative; z-index: 5; }
-        .grid-label { font-size: 0.55rem; font-weight: 600; display: block; text-align: center; color: var(--primary-color); margin-top: 2px; line-height: 1.1; }
+        /* โครงสร้าง Grid แบบเป๊ะๆ ไม่ดันเนื้อหาพัง */
+        .idw-grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: 1fr 1fr; gap: 6px; flex: 1; min-height: 0; margin-bottom: 4px; }
+        .idw-item { display: flex; flex-direction: column; min-height: 0; }
+        .idw-img { width: 100%; object-fit: contain; border-radius: 4px; border: 1px solid #cbd5e1; background-color: #ffffff; cursor: zoom-in; position: relative; z-index: 5; flex: 1; min-height: 0; }
+
+        .extreme-grid { display: grid; grid-template-columns: repeat(6, 1fr); grid-template-rows: 1fr 1fr; gap: 6px; flex: 1; min-height: 0; margin-bottom: 4px; }
+        .extreme-item { display: flex; flex-direction: column; min-height: 0; }
+        .extreme-item.top { grid-column: span 2; }
+        .extreme-item.bot-1 { grid-column: 2 / span 2; }
+        .extreme-item.bot-2 { grid-column: 4 / span 2; }
 
         .analysis-box {
             background: #f8fafc; padding: 6px 8px; border-radius: 6px; border-left: 4px solid var(--primary-color);
-            font-size: 0.68rem; text-align: justify; line-height: 1.35; margin-top: 4px;
+            font-size: 0.68rem; text-align: justify; line-height: 1.35; margin-top: 4px; flex-shrink: 0;
         }
+
+        /* ตาราง */
+        .data-table { width: 100%; border-collapse: collapse; font-size: 0.65rem; border-radius: 0 0 6px 6px; overflow: hidden; background: white; position: relative; z-index: 5; }
+        .data-table th, .data-table td { border: 1px solid #cbd5e1; padding: 3px 2px; text-align: center; }
+        .data-table th { background-color: var(--primary-color); color: white; font-family: 'Prompt', sans-serif; font-weight: 400; }
+        .data-table tr:nth-child(even) { background-color: #f8fafc; }
+        .data-table td.trend-up { color: #dc2626; font-weight: 600; }
 
         /* ============ สรุปและ Footer ============ */
         .conclusion-box {
-            background: rgba(255, 255, 255, 0.9); border: 2px solid #fdba74; border-left: 10px solid var(--accent-color);
-            padding: 12px 20px; border-radius: 8px; flex-shrink: 0;
+            background: white; border: 2px solid #fdba74; border-left: 8px solid var(--accent-color);
+            padding: 14px 20px; border-radius: 8px; flex-shrink: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.05); position: relative;
         }
+        .conclusion-box .section-title { color: #c2410c; border-bottom-color: #fdba74; margin-bottom: 6px; }
+
         .footer { 
             display: flex; justify-content: space-between; align-items: center;
-            padding: 10px 24px; background: rgba(255,255,255,0.7); border-radius: 8px; flex-shrink: 0; 
+            padding: 10px 24px; background: rgba(255,255,255,0.8); border-radius: 8px; flex-shrink: 0; 
         }
-        .footer h1 { font-family: 'Prompt', sans-serif; font-size: 1.5rem; color: var(--primary-color); margin: 0; }
+        .footer h1 { font-family: 'Prompt', sans-serif; background: linear-gradient(to right, var(--primary-color), var(--accent-color)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 1.5rem; margin: 0; }
+        
+        .qr-container { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+        #qrcode { padding: 4px; background: white; border-radius: 6px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); cursor: pointer; transition: transform 0.2s; }
+        #qrcode:hover { transform: scale(1.05); }
+        .qr-text { font-size: 0.55rem; font-weight: 700; color: var(--primary-color); font-family: 'Prompt', sans-serif; opacity: 0.8; }
 
-        .qr-container { display: flex; flex-direction: column; align-items: center; gap: 2px; }
-        #qrcode { padding: 4px; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); cursor: pointer; }
-
-        /* ============ Modals ============ */
-        .image-modal {
-            display: none; position: fixed; z-index: 9999; inset: 0;
-            background-color: rgba(0,0,0,0.92); cursor: zoom-out;
-            justify-content: center; align-items: center;
-        }
-        .text-modal {
-            display: none; position: fixed; z-index: 9998; inset: 0;
-            background-color: rgba(0,0,0,0.85); 
-            justify-content: center; align-items: center;
-            padding: 20px; animation: fadeIn 0.2s;
-        }
-        .text-modal-content {
-            background: white; width: 100%; max-width: 600px; border-radius: 15px; padding: 30px;
-            position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-        }
-        .text-modal-header { border-bottom: 2px solid var(--secondary-color); margin-bottom: 15px; padding-bottom: 10px; font-family: 'Prompt', sans-serif; color: var(--primary-color); font-size: 1.25rem; font-weight: 700; }
-        .text-modal-body { font-size: 1.05rem; line-height: 1.7; color: #334155; }
-        .modal-close-btn { position: absolute; top: 15px; right: 15px; font-size: 2rem; color: #94a3b8; cursor: pointer; }
-
-        /* ============ UI Controls ============ */
-        .export-controls { position: fixed; top: 10px; right: 10px; display: flex; flex-direction: column; gap: 8px; z-index: 1000; }
-        .export-btn { background: var(--primary-color); color: white; border: none; padding: 10px 18px; border-radius: 50px; font-family: 'Prompt', sans-serif; font-size: 0.85rem; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-
-        #loading-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); color: white; display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 2000; text-align: center; }
-        .spinner { width: 40px; height: 40px; border: 4px solid #f3f3f3; border-top: 4px solid var(--accent-color); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 15px; }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
+        /* ============ Pop-up Modals ============ */
+        .image-modal { display: none; position: fixed; z-index: 9999; inset: 0; background-color: rgba(0,0,0,0.92); cursor: zoom-out; justify-content: center; align-items: center; }
+        .text-modal { display: none; position: fixed; z-index: 9998; inset: 0; background-color: rgba(0,0,0,0.8); justify-content: center; align-items: center; padding: 20px; animation: fadeIn 0.2s; }
+        .text-modal-content { background: white; width: 100%; max-width: 600px; border-radius: 12px; padding: 25px; box-shadow: 0 20px 50px rgba(0,0,0,0.3); position: relative; max-height: 85vh; overflow-y: auto; }
+        .text-modal-header { border-bottom: 2px solid var(--secondary-color); margin-bottom: 15px; padding-bottom: 10px; font-family: 'Prompt', sans-serif; color: var(--primary-color); font-size: 1.2rem; font-weight: 700; }
+        .text-modal-body { font-size: 0.95rem; line-height: 1.6; color: #334155; }
+        .modal-close-btn { position: absolute; top: 15px; right: 15px; font-size: 1.8rem; color: #94a3b8; cursor: pointer; }
+        .modal-img-content { margin: auto; display: block; max-width: 90%; max-height: 85vh; border-radius: 10px; animation: zoom 0.3s; border: 4px solid white; }
+        
+        @keyframes zoom { from {transform:scale(0.8); opacity: 0;} to {transform:scale(1); opacity: 1;} }
         @keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
 
+        /* ============ UI Controls ============ */
+        .export-controls { position: fixed; top: 15px; right: 15px; display: flex; flex-direction: column; gap: 8px; z-index: 1000; }
+        .export-btn { background: var(--primary-color); color: white; border: none; padding: 10px 18px; border-radius: 50px; font-family: 'Prompt', sans-serif; font-size: 0.85rem; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.2s; }
+        
+        #loading-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); color: white; display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 2000; font-family: 'Prompt', sans-serif; text-align: center; }
+        .spinner { width: 50px; height: 50px; border: 5px solid #f3f3f3; border-top: 5px solid var(--accent-color); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 15px; }
+
         @media print {
-            .no-print, .image-modal, .text-modal, .text-expand-btn, .rain-overlay, .export-controls { display: none !important; }
-            body { background: white; padding: 0; }
+            .no-print, .image-modal, .text-modal, .text-expand-btn, .export-controls { display: none !important; }
+            @page { size: A3 portrait; margin: 0; }
+            body { background: white; padding: 0; display: block; min-height: auto;}
             .page-wrapper { padding: 0; }
-            .poster-container { box-shadow: none; border-radius: 0; transform: none !important; }
+            .poster-container { width: 1122px; height: 1587px; box-shadow: none; border-radius: 0; padding: 10mm; margin: 0 auto; transform: none !important; }
         }
     </style>
 </head>
 <body>
 
+    <!-- ปุ่มส่งออก -->
     <div class="export-controls no-print">
-        <select id="dpiSelect" style="padding: 6px; border-radius: 8px; font-size: 12px; border: 1px solid #cbd5e1;">
+        <select id="dpiSelect" style="padding: 6px; border-radius: 8px; font-size: 12px; border: 1px solid #cbd5e1; outline:none;">
             <option value="1.5">ปกติ (150 DPI)</option>
             <option value="3" selected>สูง (300 DPI)</option>
-            <option value="6">สูงมาก (600 DPI)</option>
-            <option value="10">โปสเตอร์ (1000 DPI)</option>
-            <option value="15">คมชัดพิเศษ (1500 DPI)</option>
-            <option value="20">ละเอียดมาก (2000 DPI)</option>
-            <option value="30">สูงสุด (3000 DPI)</option>
+            <option value="4">สูงมาก (400 DPI)</option>
+            <option value="5">โปสเตอร์ (500 DPI)</option>
+            <option value="8">คมชัดพิเศษ (800 DPI)</option>
         </select>
         <button class="export-btn" style="background:#dc2626;" onclick="handlePDFExport()">บันทึกเป็น PDF (A3)</button>
         <button class="export-btn" style="background:var(--accent-color)" onclick="handleJPGExport()">บันทึกเป็นรูปภาพ</button>
     </div>
 
-    <!-- 🖼️ Modals 🖼️ -->
-    <div id="imgModal" class="image-modal no-print" onclick="this.style.display='none'">
-        <img id="modalImg" style="max-width: 90%; max-height: 90%; border: 4px solid white; border-radius: 10px;">
+    <!-- 🖼️ Image Lightbox Modal 🖼️ -->
+    <div id="imgModal" class="image-modal no-print" onclick="closeModal()">
+        <img id="modalImg" class="modal-img-content">
     </div>
 
-    <div id="textModal" class="text-modal no-print" onclick="this.style.display='none'">
+    <!-- 📄 Text Pop-up Modal 📄 -->
+    <div id="textModal" class="text-modal no-print" onclick="closeTextModal()">
         <div class="text-modal-content" onclick="event.stopPropagation()">
-            <span class="modal-close-btn" onclick="document.getElementById('textModal').style.display='none'">&times;</span>
-            <div class="text-modal-header" id="textModalHeader">หัวข้อ</div>
+            <span class="modal-close-btn" onclick="closeTextModal()">&times;</span>
+            <div class="text-modal-header" id="textModalHeader">หัวข้อข้อมูล</div>
             <div id="textModalBody" class="text-modal-body">เนื้อหาเพิ่มเติม...</div>
         </div>
     </div>
@@ -243,165 +244,172 @@
         <p id="loading-text">กำลังประมวลผลโปสเตอร์... <br>กรุณารอประมาณ 10-20 วินาที</p>
     </div>
 
-    <div class="page-wrapper">
-        <div class="poster-container" id="poster">
+    <div class="poster-container" id="poster">
+        
+        <div class="rain-overlay" id="rainLayer"></div>
+        
+        <!-- ================= ส่วนหัว ================= -->
+        <div class="header">
+            <h1 id="titleText">ผลกระทบของการเปลี่ยนแปลงสภาพภูมิอากาศต่อฝนภายในลุ่มน้ำคลองอู่ตะเภา</h1>
+            <h2>Impacts of Climate Change on Rainfall in U-tapao River Basin</h2>
+            <div class="authors"><strong>คณะผู้จัดทำ:</strong> นายปุญญพัฒน์ หนูช่วย (6510110282) | นายฮัตรี เต๊ะมะหมัด (6510110588)</div>
+            <div class="advisor"><strong>อาจารย์ที่ปรึกษา:</strong> ดร.ชยุตพงศ์ มานะกุล</div>
+        </div>
+
+        <!-- ================= เลย์เอาต์หลัก ================= -->
+        <div class="main-layout">
             
-            <div class="rain-overlay" id="rainLayer"></div>
-            
-            <!-- ================= ส่วนหัว ================= -->
-            <div class="header">
-                <h1>ผลกระทบของการเปลี่ยนแปลงสภาพภูมิอากาศต่อฝนภายในลุ่มน้ำคลองอู่ตะเภา</h1>
-                <h2>Impacts of Climate Change on Rainfall in U-tapao River Basin</h2>
-                <div class="authors"><strong>คณะผู้จัดทำ:</strong> นายปุญญพัฒน์ หนูช่วย (6510110282) | นายฮัตรี เต๊ะมะหมัด (6510110588)</div>
-                <div class="advisor"><strong>อาจารย์ที่ปรึกษา:</strong> ดร.ชยุตพงศ์ มานะกุล</div>
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="section" id="sec1">
+                    <div class="section-title">1. บทนำ (Introduction)</div>
+                    <div class="normal-content" style="flex: auto;">
+                        <p><strong>Climate Change:</strong> ทำให้ลักษณะฝนเปลี่ยนแปลงไป เกิดฝนตกถี่และกระจุกตัว เสี่ยงต่อ <span class="highlight">ฝนตกหนักเฉียบพลัน</span></p>
+                        <p><strong>ลุ่มน้ำคลองอู่ตะเภา:</strong> มีความสำคัญเชิงเศรษฐกิจต่อสงขลาอย่างมาก ความผันผวนของฝนจึงเป็นภัยคุกคามโดยตรงต่อพื้นที่</p>
+                    </div>
+                    <div class="deep-content">
+                        <p>สภาวะการเปลี่ยนแปลงสภาพภูมิอากาศ (Climate Change) ส่งผลให้วัฏจักรของน้ำมีความรุนแรงมากขึ้น โดยเฉพาะในพื้นที่เขตร้อนอย่างลุ่มน้ำคลองอู่ตะเภา งานวิจัยนี้จึงมุ่งเน้นวิเคราะห์ความเสี่ยงที่อาจเกิดขึ้นในอนาคตเพื่อหาแนวทางรับมือเชิงนโยบายสำหรับการออกแบบโครงสร้างพื้นฐานในอนาคต</p>
+                    </div>
+                    <button class="text-expand-btn no-print" onclick="openTextModal('sec1')">🔍</button>
+                </div>
+                
+                <div class="section" id="sec2">
+                    <div class="section-title">2. วัตถุประสงค์</div>
+                    <div class="normal-content" style="flex: auto;">
+                        <ol>
+                            <li>คาดการณ์ปริมาณฝนในอนาคตภายใต้ Climate Scenarios</li>
+                            <li>วิเคราะห์ผลกระทบและการเปลี่ยนแปลงในลุ่มน้ำคลองอู่ตะเภา</li>
+                        </ol>
+                    </div>
+                    <div class="deep-content">
+                        <p>เป้าหมายหลักคือการระบุ Flood Hotspots และประเมินความแม่นยำของแบบจำลอง GCM ในระดับภูมิภาค เพื่อจัดทำฐานข้อมูลดัชนีฝนสุดขั้วสำหรับหน่วยงานบริหารจัดการน้ำท้องถิ่น</p>
+                    </div>
+                    <button class="text-expand-btn no-print" onclick="openTextModal('sec2')">🔍</button>
+                </div>
+                
+                <div class="section" style="flex: 1;" id="sec3">
+                    <div class="section-title">3. ขอบเขตการศึกษา</div>
+                    <div class="normal-content">
+                        <p>พื้นที่ลุ่มน้ำคลองอู่ตะเภา ~2,840 ตร.กม. ครอบคลุม 7 อำเภอหลักของสงขลา คาดการณ์ปี 2015-2100 ภายใต้ฉากทัศน์ SSP2-4.5 และ SSP5-8.5</p>
+                        <img src="image_83f269.jpg" onerror="handleImageError(this, 'image_83f269.jpg')" class="content-image" style="margin-top: 6px;">
+                    </div>
+                    <div class="deep-content">
+                        <p>วิเคราะห์ข้อมูลจากสถานีวัดนํ้าฝนจำนวน 15 สถานี ครอบคลุมตั้งแต่อำเภอสะเดาจนถึงปากแม่น้ำที่ทะเลสาบสงขลา โดยเน้นช่วงปีฐาน (1981-2010)</p>
+                    </div>
+                    <button class="text-expand-btn no-print" onclick="openTextModal('sec3')">🔍</button>
+                </div>
+
+                <div class="section" style="flex: 0.8;" id="sec4">
+                    <div class="section-title">4. ขั้นตอนการวิจัย</div>
+                    <div class="normal-content">
+                        <img src="image_83e342.png" onerror="handleImageError(this, 'image_83e342.png')" class="content-image">
+                    </div>
+                    <div class="deep-content">
+                        <p>กระบวนการวิจัย: 1. คัดเลือกแบบจำลอง CMIP6 | 2. ปรับแก้ Bias Correction ด้วย Linear Scaling | 3. คำนวณดัชนีฝนสุดขั้ว ETCCDI | 4. จัดทำแผนที่ GIS กระจายตัวเชิงพื้นที่</p>
+                    </div>
+                    <button class="text-expand-btn no-print" onclick="openTextModal('sec4')">🔍</button>
+                </div>
             </div>
 
-            <!-- ================= เลย์เอาต์หลัก ================= -->
-            <div class="main-layout">
-                
-                <!-- ซ้ายมือ -->
-                <div class="sidebar">
-                    <div class="section" id="sec1">
-                        <div class="section-title">1. บทนำ</div>
-                        <p><strong>Climate Change:</strong> ทำให้ลักษณะฝนเปลี่ยนแปลงไป เสี่ยงต่อ <span class="highlight">ฝนตกหนักเฉียบพลัน</span></p>
-                        <p><strong>ลุ่มน้ำอู่ตะเภา:</strong> มีความสำคัญเชิงเศรษฐกิจต่อสงขลาอย่างมาก ความผันผวนของฝนจึงเป็นภัยคุกคามโดยตรง</p>
-                        <div class="deep-content">
-                            <p>สภาวะการเปลี่ยนแปลงสภาพภูมิอากาศ (Climate Change) ส่งผลให้วัฏจักรของน้ำมีความรุนแรงมากขึ้น โดยเฉพาะในพื้นที่เขตร้อนอย่างลุ่มน้ำคลองอู่ตะเภา งานวิจัยนี้จึงมุ่งเน้นวิเคราะห์ความเสี่ยงที่อาจเกิดขึ้นในอนาคตเพื่อหาแนวทางรับมือเชิงนโยบายสำหรับการออกแบบโครงสร้างพื้นฐาน</p>
+            <!-- ===== Main Content ===== -->
+            <div class="main-content">
+                <div class="content-top-row">
+                    <!-- คอลัมน์กลาง -->
+                    <div class="mid-col">
+                        <div class="section" style="flex: 1;" id="sec5">
+                            <div class="section-title">5. ข้อมูลและแบบจำลอง (GCMs)</div>
+                            <div class="normal-content" style="gap: 6px;">
+                                <img src="image_83e000.png" onerror="handleImageError(this, 'image_83e000.png')" class="content-image">
+                                <img src="image_83dfdf.png" onerror="handleImageError(this, 'image_83dfdf.png')" class="content-image">
+                            </div>
+                            <div class="deep-content">
+                                <p>แบบจำลอง EC-Earth3, MRI และ NorESM ได้รับการทดสอบแล้วว่ามีความแม่นยำสูงในการจำลองพฤติกรรมลมมรสุมในเขตศูนย์สูตรได้ใกล้เคียงความจริงที่สุดสำหรับการศึกษาฝนในภาคใต้</p>
+                            </div>
+                            <button class="text-expand-btn no-print" onclick="openTextModal('sec5')">🔍</button>
                         </div>
-                        <button class="text-expand-btn no-print" onclick="openTextModal('sec1')">🔍</button>
-                    </div>
-                    
-                    <div class="section" id="sec2">
-                        <div class="section-title">2. วัตถุประสงค์</div>
-                        <ol style="margin-left: 15px;">
-                            <li>คาดการณ์ปริมาณฝนภายใต้ฉากทัศน์ SSP2-4.5 และ SSP5-8.5</li>
-                            <li>วิเคราะห์ดัชนีฝนตกสุดขั้ว ETCCDI</li>
-                        </ol>
-                        <div class="deep-content">
-                            <p>วิจัยนี้เน้นไปที่การระบุ Hotspots ของพื้นที่เสี่ยงภัยน้ำท่วม และประเมินความแม่นยำของแบบจำลอง GCM ในระดับภูมิภาคเพื่อจัดทำฐานข้อมูลดัชนีฝนสำหรับหน่วยงานบริหารจัดการน้ำท้องถิ่น</p>
+
+                        <!-- หัวข้อ 6 -->
+                        <div class="section" style="flex: 1.2;" id="sec6">
+                            <div class="section-title">6. การวิเคราะห์ข้อมูล</div>
+                            <div class="normal-content" style="gap: 6px;">
+                                <p>ใช้วิธี <span class="highlight">Linear Scaling</span> และ <span class="highlight">IDW</span></p>
+                                <div class="img-wrapper">
+                                    <span class="img-label">Linear Scaling</span>
+                                    <img src="image_83df64.png" onerror="handleImageError(this, 'Linear Scaling')" class="content-image">
+                                </div>
+                                <div class="img-wrapper" style="border-top: 1px dashed #cbd5e1; padding-top: 6px;">
+                                    <span class="img-label">IDW Interpolation</span>
+                                    <img src="image_7a0201.png" onerror="handleImageError(this, 'IDW Eq')" class="content-image">
+                                </div>
+                            </div>
+                            <div class="deep-content">
+                                <p>Linear Scaling ใช้เพื่อปรับแก้ข้อมูลจำลองให้สอดคล้องกับค่าตรวจวัดจริง ส่วน IDW Power=2 ใช้เพื่อความสมดุลของการกระจายน้ำหนักตามระยะทางเชิงพื้นที่</p>
+                            </div>
+                            <button class="text-expand-btn no-print" onclick="openTextModal('sec6')">🔍</button>
                         </div>
-                        <button class="text-expand-btn no-print" onclick="openTextModal('sec2')">🔍</button>
-                    </div>
-                    
-                    <div class="section" style="flex: 1.8;" id="sec3">
-                        <div class="section-title">3. ขอบเขตการศึกษา</div>
-                        <p>พื้นที่ลุ่มน้ำคลองอู่ตะเภา ~2,840 ตร.กม. ครอบคลุม 7 อำเภอหลักของสงขลา วิเคราะห์ช่วงปี 2015-2100</p>
-                        <img src="image_83f269.jpg" onerror="handleImageError(this, 'image_83f269.jpg')" class="content-image" style="flex: 1; min-height: 0; margin-top: 5px; object-fit: contain;">
-                        <div class="deep-content">
-                            <p>วิเคราะห์ข้อมูลจากสถานีวัดน้ำฝน 15 สถานี ครอบคลุมตั้งแต่อำเภอสะเดาจนถึงปากแม่น้ำที่ทะเลสาบสงขลา โดยเน้นช่วงปีฐาน (1981-2010)</p>
+
+                        <!-- หัวข้อ 7.1 -->
+                        <div class="section" style="flex: 1.3;" id="sec71">
+                            <div class="section-title">7.1 แผนที่ IDW (RX1day)</div>
+                            <div class="normal-content">
+                                <div class="idw-grid">
+                                    <div class="idw-item"><img src="idw_ec_245.jpg" onerror="handleImageError(this, 'idw_ec_245.jpg')" class="idw-img"><span class="grid-label">EC 2.45</span></div>
+                                    <div class="idw-item"><img src="idw_mri_245.jpg" onerror="handleImageError(this, 'idw_mri_245.jpg')" class="idw-img"><span class="grid-label">MRI 2.45</span></div>
+                                    <div class="idw-item"><img src="idw_nor_245.jpg" onerror="handleImageError(this, 'idw_nor_245.jpg')" class="idw-img"><span class="grid-label">Nor 2.45</span></div>
+                                    <div class="idw-item"><img src="idw_ec_585.jpg" onerror="handleImageError(this, 'idw_ec_585.jpg')" class="idw-img" style="border-color:#fca5a5;"><span class="grid-label">EC 5.85</span></div>
+                                    <div class="idw-item"><img src="idw_mri_585.jpg" onerror="handleImageError(this, 'idw_mri_585.jpg')" class="idw-img" style="border-color:#fca5a5;"><span class="grid-label">MRI 5.85</span></div>
+                                    <div class="idw-item"><img src="idw_nor_585.jpg" onerror="handleImageError(this, 'idw_nor_585.jpg')" class="idw-img" style="border-color:#fca5a5;"><span class="grid-label">Nor 5.85</span></div>
+                                </div>
+                                <div class="analysis-box"><strong>สรุปผล:</strong> พื้นที่ลุ่มน้ำตอนล่างและหาดใหญ่มีความเข้มของฝนพุ่งสูงกว่าปกติใน SSP5-8.5</div>
+                            </div>
+                            <div class="deep-content">
+                                <p>แผนที่ IDW ระบุว่าปริมาณฝนหนักใน 1 วัน (RX1day) จะขยับตัวสูงขึ้นเรื่อยๆ โดยเฉพาะบริเวณสถานี STN01 และ STN04 ซึ่งเป็นพื้นที่ลุ่มต่ำ</p>
+                            </div>
+                            <button class="text-expand-btn no-print" onclick="openTextModal('sec71')">🔍</button>
                         </div>
-                        <button class="text-expand-btn no-print" onclick="openTextModal('sec3')">🔍</button>
                     </div>
 
-                    <div class="section" id="sec4" style="flex: 0.7;">
-                        <div class="section-title">4. ขั้นตอนการวิจัย</div>
-                        <div class="normal-content" style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
-                            <img src="image_83e342.png" onerror="handleImageError(this, 'image_83e342.png')" class="content-image" style="width: 100%; max-height: 90px; object-fit: contain; margin: 0 auto;">
+                    <!-- คอลัมน์ขวา -->
+                    <div class="right-col">
+                        <div class="section" style="flex: 1;" id="sec72">
+                            <div class="section-title">7.2 ผลวิเคราะห์ปริมาณฝน</div>
+                            <div class="normal-content">
+                                <img src="image_7a0181.jpg" onerror="handleImageError(this, 'image_7a0181.jpg')" class="content-image" style="margin-bottom: 6px;">
+                                <p style="font-size: 0.7rem; background: #f1f5f9; padding: 6px; border-radius: 4px; flex-shrink: 0; margin-bottom: 0;">ปริมาณฝนรายปีแสดงความผันผวนสูง โดยเฉพาะทศวรรษ 2040-2070 ภายใต้แบบจำลอง EC-Earth3 และ MRI</p>
+                            </div>
+                            <div class="deep-content">
+                                <p>ภาพรวมปริมาณฝนสะสมมีแนวโน้มเพิ่มขึ้นเล็กน้อย แต่สิ่งที่น่ากังวลคือความถี่ของการเกิดฝนตกหนักรุนแรงในระยะเวลาสั้นๆ</p>
+                            </div>
+                            <button class="text-expand-btn no-print" onclick="openTextModal('sec72')">🔍</button>
                         </div>
-                        <div class="deep-content">
-                            <p>กระบวนการ: 1. คัดเลือกแบบจำลอง CMIP6 | 2. ปรับแก้ Bias ด้วย Linear Scaling | 3. คำนวณดัชนี ETCCDI | 4. จัดทำแผนที่กระจายตัวเชิงพื้นที่ด้วย GIS</p>
+
+                        <div class="section" style="flex: 1.3;" id="sec7d">
+                            <div class="section-title">กราฟเปรียบเทียบดัชนีฝนตกสุดขั้ว</div>
+                            <div class="normal-content">
+                                <div class="extreme-grid">
+                                    <div class="extreme-item top"><img src="graph_r95p.jpg" class="idw-img" onerror="handleImageError(this, 'graph_r95p.jpg')"><span class="grid-label">R95p</span></div>
+                                    <div class="extreme-item top"><img src="graph_r99p.jpg" class="idw-img" onerror="handleImageError(this, 'graph_r99p.jpg')"><span class="grid-label">R99p</span></div>
+                                    <div class="extreme-item top"><img src="graph_rx1day.jpg" class="idw-img" onerror="handleImageError(this, 'graph_rx1day.jpg')"><span class="grid-label">RX1day</span></div>
+                                    <div class="extreme-item bot-1"><img src="graph_sdii.jpg" class="idw-img" onerror="handleImageError(this, 'graph_sdii.jpg')"><span class="grid-label">SDII</span></div>
+                                    <div class="extreme-item bot-2"><img src="graph_r20mm.jpg" class="idw-img" onerror="handleImageError(this, 'graph_r20mm.jpg')"><span class="grid-label">R20mm</span></div>
+                                </div>
+                                <div class="analysis-box"><strong>สรุปผล:</strong> ดัชนีฝนตกสุดขั้วเพิ่มขึ้นต่อเนื่อง ยกเว้น NorESM2-MM ที่ให้ผลลัพธ์สวนทาง</div>
+                            </div>
+                            <div class="deep-content">
+                                <p>ค่า R99p (Extreme Rainfall) พุ่งขึ้นสูงสุด แสดงถึงแนวโน้มที่จะเกิดฝนตกหนักแบบผิดปกติ (Once in a century) บ่อยครั้งขึ้น</p>
+                            </div>
+                            <button class="text-expand-btn no-print" onclick="openTextModal('sec7d')">🔍</button>
                         </div>
-                        <button class="text-expand-btn no-print" onclick="openTextModal('sec4')">🔍</button>
                     </div>
                 </div>
 
-                <!-- ขวา-กลาง -->
-                <div class="main-content">
-                    <div class="content-top-row">
-                        
-                        <!-- คอลัมน์กลาง -->
-                        <div class="mid-col">
-                            <div class="section" id="sec5" style="flex: 1.1;">
-                                <div class="section-title">5. ข้อมูลและแบบจำลอง (GCMs)</div>
-                                <div class="normal-content" style="display: flex; flex-direction: column; justify-content: center; gap: 6px; flex: 1;">
-                                    <img src="image_83e000.png" onerror="handleImageError(this, 'image_83e000.png')" class="content-image" style="max-height: 80px; width: auto; margin: 0 auto;">
-                                    <img src="image_83dfdf.png" onerror="handleImageError(this, 'image_83dfdf.png')" class="content-image" style="max-height: 80px; width: auto; margin: 0 auto;">
-                                </div>
-                                <div class="deep-content">
-                                    <p>แบบจำลองเหล่านี้ได้รับการพิสูจน์แล้วว่าสามารถแสดงพฤติกรรมลมมรสุมและปริมาณฝนในเขตเอเชียตะวันออกเฉียงใต้ได้แม่นยำสูง</p>
-                                </div>
-                                <button class="text-expand-btn no-print" onclick="openTextModal('sec5')">🔍</button>
-                            </div>
-
-                            <div class="section" id="sec6" style="flex: 1.4;">
-                                <div class="section-title">6. การวิเคราะห์ข้อมูล</div>
-                                <div style="flex: 1; display: flex; flex-direction: column; justify-content: space-around;">
-                                    <p style="margin-bottom: 4px;">ใช้วิธี <span class="highlight">Linear Scaling</span> และ <span class="highlight">IDW</span></p>
-                                    <div style="text-align: center;">
-                                        <p style="font-size: 0.7rem; font-weight: 700; color: var(--primary-color); margin-bottom: 2px;">Linear Scaling</p>
-                                        <img src="image_83df64.png" onerror="handleImageError(this, 'Linear Scaling')" class="content-image" style="max-height: 75px; margin: 0 auto;">
-                                    </div>
-                                    <div style="text-align: center; border-top: 1px dashed #ccc; padding-top: 6px; margin-top: 4px;">
-                                        <p style="font-size: 0.7rem; font-weight: 700; color: var(--primary-color); margin-bottom: 2px;">IDW Interpolation</p>
-                                        <img src="image_7a0201.png" onerror="handleImageError(this, 'IDW Eq')" class="content-image" style="max-height: 75px; margin: 0 auto;">
-                                    </div>
-                                </div>
-                                <div class="deep-content">
-                                    <p>ใช้ Linear Scaling ปรับแก้ข้อมูลจำลองให้ตรงกับค่าจริง และใช้ IDW กระจายน้ำหนักฝนเพื่อหาจุดเสี่ยงภัยเชิงพื้นที่</p>
-                                </div>
-                                <button class="text-expand-btn no-print" onclick="openTextModal('sec6')">🔍</button>
-                            </div>
-
-                            <div class="section" style="flex: 1.2;" id="sec71">
-                                <div class="section-title">7.1 แผนที่ IDW (RX1day)</div>
-                                <div class="idw-grid" style="flex: 1;">
-                                    <div><img src="idw_ec_245.jpg" onerror="handleImageError(this, 'idw_ec_245.jpg')" class="idw-img"><span class="grid-label">EC 2.45</span></div>
-                                    <div><img src="idw_mri_245.jpg" onerror="handleImageError(this, 'idw_mri_245.jpg')" class="idw-img"><span class="grid-label">MRI 2.45</span></div>
-                                    <div><img src="idw_nor_245.jpg" onerror="handleImageError(this, 'idw_nor_245.jpg')" class="idw-img"><span class="grid-label">Nor 2.45</span></div>
-                                    <div><img src="idw_ec_585.jpg" onerror="handleImageError(this, 'idw_ec_585.jpg')" class="idw-img" style="border-color:#fca5a5;"><span class="grid-label">EC 5.85</span></div>
-                                    <div><img src="idw_mri_585.jpg" onerror="handleImageError(this, 'idw_mri_585.jpg')" class="idw-img" style="border-color:#fca5a5;"><span class="grid-label">MRI 5.85</span></div>
-                                    <div><img src="idw_nor_585.jpg" onerror="handleImageError(this, 'idw_nor_585.jpg')" class="idw-img" style="border-color:#fca5a5;"><span class="grid-label">Nor 5.85</span></div>
-                                </div>
-                                <div class="analysis-box"><strong>สรุป:</strong> พื้นที่หาดใหญ่มีความเข้มของฝนพุ่งสูงมากใน SSP5-8.5</div>
-                                <div class="deep-content">
-                                    <p>แผนที่ IDW ระบุว่าปริมาณฝนหนักใน 1 วัน (RX1day) จะขยับตัวสูงขึ้นเรื่อยๆ โดยเฉพาะบริเวณสถานี STN01 และ STN04 ซึ่งเป็นพื้นที่ลุ่มต่ำ</p>
-                                </div>
-                                <button class="text-expand-btn no-print" onclick="openTextModal('sec71')">🔍</button>
-                            </div>
-                        </div>
-
-                        <!-- คอลัมน์ขวา -->
-                        <div class="right-col">
-                            <div class="section" id="sec72" style="flex: 1;">
-                                <div class="section-title">7.2 ผลวิเคราะห์ปริมาณฝน</div>
-                                <img src="image_7a0181.jpg" onerror="handleImageError(this, 'image_7a0181.jpg')" class="content-image" style="flex: 1; min-height: 0; object-fit: contain; margin-bottom: 4px;">
-                                <p style="font-size: 0.68rem; background: #f1f5f9; padding: 4px; border-radius: 4px; flex-shrink: 0;">ปริมาณฝนรายปีผันผวนสูง โดยเฉพาะทศวรรษ 2040-2070 ใน EC-Earth3</p>
-                                <div class="deep-content">
-                                    <p>ภาพรวมปริมาณฝนสะสมมีแนวโน้มเพิ่มขึ้นเล็กน้อย แต่สิ่งที่น่ากังวลคือความถี่ของการเกิดฝนตกหนักรุนแรงในระยะเวลาสั้นๆ</p>
-                                </div>
-                                <button class="text-expand-btn no-print" onclick="openTextModal('sec72')">🔍</button>
-                            </div>
-
-                            <div class="section flex-space-between" style="flex: 1.2;" id="sec7d">
-                                <div class="section-title">กราฟเปรียบเทียบดัชนีฝนตกสุดขั้ว</div>
-                                <div style="flex: 1; display: flex; flex-direction: column; overflow: hidden; justify-content: space-between;">
-                                    <div class="idw-grid" style="margin-bottom: 2px; flex: 2.2; gap: 4px;">
-                                        <div><img src="graph_r95p.jpg" class="grid-img" onerror="handleImageError(this, 'graph_r95p.jpg')"><span class="grid-label">R95p</span></div>
-                                        <div><img src="graph_r99p.jpg" class="grid-img" onerror="handleImageError(this, 'graph_r99p.jpg')"><span class="grid-label">R99p</span></div>
-                                        <div><img src="graph_rx1day.jpg" class="grid-img" onerror="handleImageError(this, 'graph_rx1day.jpg')"><span class="grid-label">RX1day</span></div>
-                                        <div style="grid-column: 1 / -1; display: flex; gap: 6px; justify-content: center; height: 80px;">
-                                            <div style="width:32%"><img src="graph_sdii.jpg" class="grid-img" onerror="handleImageError(this, 'graph_sdii.jpg')"><span class="grid-label">SDII</span></div>
-                                            <div style="width:32%"><img src="graph_r20mm.jpg" class="grid-img" onerror="handleImageError(this, 'graph_r20mm.jpg')"><span class="grid-label">R20mm</span></div>
-                                        </div>
-                                    </div>
-                                    <div class="analysis-box" style="flex-shrink: 0; border-left-width: 3px;">
-                                        <strong>สรุปผล:</strong> ดัชนีฝนตกสุดขั้วเพิ่มขึ้นต่อเนื่อง ยกเว้น NorESM2-MM
-                                    </div>
-                                </div>
-                                <div class="deep-content">
-                                    <p>ค่า R99p (Extreme Rainfall) พุ่งขึ้นสูงสุด แสดงถึงแนวโน้มที่จะเกิดฝนตกหนักแบบผิดปกติ (Once in a century) บ่อยครั้งขึ้น</p>
-                                </div>
-                                <button class="text-expand-btn no-print" onclick="openTextModal('sec7d')">🔍</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 7.3: ข้อมูลตารางเต็ม 100% -->
-                    <div class="section" style="flex-shrink: 0;" id="sec73">
-                        <div class="section-title">7.3 การวิเคราะห์ดัชนีฝนตกสุดขั้วตามฉากทัศน์ (สถานี STN01)</div>
-                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; align-items: stretch; margin-bottom: 4px;">
+                <!-- 7.3: ข้อมูลตารางเต็ม 100% -->
+                <div class="section" style="flex-shrink: 0;" id="sec73">
+                    <div class="section-title">7.3 การวิเคราะห์ดัชนีฝนตกสุดขั้วตามฉากทัศน์ (สถานี STN01)</div>
+                    <div class="normal-content" style="flex: auto;">
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 6px;">
                             <div>
-                                <div style="background: var(--primary-color); color: white; text-align: center; font-size: 0.75rem; padding: 2px; border-radius: 4px 4px 0 0;">EC-Earth3</div>
+                                <div style="background: var(--primary-color); color: white; text-align: center; font-size: 0.7rem; padding: 2px; border-radius: 4px 4px 0 0;">EC-Earth3</div>
                                 <table class="data-table">
                                     <tr><th>ดัชนี</th><th>SSP245</th><th>SSP585</th><th>ผลต่าง</th></tr>
                                     <tr><td>RX1day</td><td>0.019</td><td>0.184</td><td><span class="trend-up">+10 เท่า</span></td></tr>
@@ -412,7 +420,7 @@
                                 </table>
                             </div>
                             <div>
-                                <div style="background: var(--primary-color); color: white; text-align: center; font-size: 0.75rem; padding: 2px; border-radius: 4px 4px 0 0;">MRI-ESM2-0</div>
+                                <div style="background: var(--primary-color); color: white; text-align: center; font-size: 0.7rem; padding: 2px; border-radius: 4px 4px 0 0;">MRI-ESM2-0</div>
                                 <table class="data-table">
                                     <tr><th>ดัชนี</th><th>SSP245</th><th>SSP585</th><th>ผลต่าง</th></tr>
                                     <tr><td>RX1day</td><td>0.038</td><td>0.097</td><td><span class="trend-up">+2.5 เท่า</span></td></tr>
@@ -423,7 +431,7 @@
                                 </table>
                             </div>
                             <div>
-                                <div style="background: var(--primary-color); color: white; text-align: center; font-size: 0.75rem; padding: 2px; border-radius: 4px 4px 0 0;">NorESM2-MM</div>
+                                <div style="background: var(--primary-color); color: white; text-align: center; font-size: 0.7rem; padding: 2px; border-radius: 4px 4px 0 0;">NorESM2-MM</div>
                                 <table class="data-table">
                                     <tr><th>ดัชนี</th><th>SSP245</th><th>SSP585</th><th>ผลต่าง</th></tr>
                                     <tr><td>RX1day</td><td>-0.024</td><td>-0.253</td><td>-10.5 เท่า</td></tr>
@@ -434,96 +442,82 @@
                                 </table>
                             </div>
                         </div>
-                        <p style="font-size: 0.68rem; padding-top: 2px;"><strong>หมายเหตุ:</strong> ฉากทัศน์ SSP5-8.5 บ่งชี้ความรุนแรงของฝนที่เพิ่มสูงขึ้นมากในรุ่น EC-Earth3 และ MRI</p>
-                        <div class="deep-content">
-                            <p>ดัชนี RX1day และ R99p พุ่งสูงขึ้นในสถานี STN01 สะท้อนพฤติกรรมฝนที่ตกหนักขึ้นในแต่ละเหตุการณ์ ในขณะที่รุ่น NorESM พยากรณ์ปริมาณฝนที่ลดลง สะท้อนความไม่แน่นอนและโอกาสเกิดภัยแล้งในระยะยาว</p>
-                        </div>
-                        <button class="text-expand-btn no-print" onclick="openTextModal('sec73')">🔍</button>
+                        <p style="font-size: 0.68rem; margin: 0;"><strong>หมายเหตุ:</strong> ฉากทัศน์ SSP5-8.5 แสดงนัยสำคัญทางสถิติ บ่งชี้ความรุนแรงของฝนที่เพิ่มสูงขึ้นมากในรุ่น EC-Earth3 และ MRI</p>
                     </div>
+                    <div class="deep-content">
+                        <p>ดัชนี RX1day และ R99p พุ่งสูงขึ้นในสถานี STN01 สะท้อนพฤติกรรมฝนที่ตกหนักขึ้นในแต่ละเหตุการณ์ ในขณะที่รุ่น NorESM พยากรณ์ปริมาณฝนที่ลดลง สะท้อนความไม่แน่นอนและโอกาสเกิดภัยแล้งในระยะยาว</p>
+                    </div>
+                    <button class="text-expand-btn no-print" onclick="openTextModal('sec73')">🔍</button>
                 </div>
             </div>
+        </div>
 
-            <div class="conclusion-box" id="sec8">
-                <div class="section-title">8. สรุปผลวิจัย (Conclusion)</div>
-                <ul style="font-size: 0.85rem; margin-bottom: 0; margin-left: 15px;">
+        <div class="conclusion-box" id="sec8">
+            <div class="section-title">8. สรุปผลวิจัย (Conclusion)</div>
+            <div class="normal-content" style="flex: auto;">
+                <ul style="font-size: 0.85rem; margin-bottom: 0;">
                     <li><strong>ฉากทัศน์ SSP5-8.5:</strong> ทำให้ความรุนแรงฝนสุดขั้วเพิ่มขึ้นชัดเจน (โดยเฉพาะ RX1day และ R99p) ของ EC-Earth3 และ MRI</li>
                     <li><strong>ความแตกต่างของ GCM:</strong> NorESM2-MM แสดงผลตรงข้าม (ฝนลดลง) บ่งชี้ความเสี่ยงน้ำต้นทุนขาดแคลนในอนาคต</li>
                     <li><strong>พฤติกรรมฝนตก:</strong> จำนวนวันฝนหนัก (R20mm) อาจลดลง แต่ความรุนแรงในแต่ละครั้งจะสูงขึ้นมาก เสี่ยงน้ำท่วมฉับพลัน</li>
                     <li><strong>พื้นที่เสี่ยง:</strong> ลุ่มน้ำคลองอู่ตะเภามีความเสี่ยงสูงขึ้น โดยเฉพาะเขตเมืองหาดใหญ่ ช่วงปี 2041-2060</li>
                 </ul>
-                <div class="deep-content">
-                    <p>ข้อเสนอแนะเชิงนโยบาย: 1. ควรเร่งปรับปรุงโครงสร้างระบายน้ำให้รองรับฝนหนักระดับ 200 มม./วัน | 2. วางแผนแก้มลิงและอ่างกักเก็บน้ำเพื่อรับมือภัยแล้งสลับน้ำท่วม | 3. ใช้ระบบ Early Warning ในพื้นที่เศรษฐกิจ</p>
-                </div>
-                <button class="text-expand-btn no-print" onclick="openTextModal('sec8')">🔍</button>
             </div>
-
-            <div class="footer">
-                <h1>THANK YOU</h1>
-                <div class="qr-container">
-                    <div id="qrcode" title="คลิกเพื่อบันทึก QR Code" onclick="saveQRCode()"></div>
-                    <span class="qr-text">SCAN OR CLICK TO SAVE QR</span>
-                </div>
+            <div class="deep-content">
+                <p>ข้อเสนอแนะเชิงนโยบาย: 1. ควรเร่งปรับปรุงโครงสร้างระบายน้ำให้รองรับฝนหนักระดับ 200 มม./วัน | 2. วางแผนแก้มลิงและอ่างกักเก็บน้ำเพื่อรับมือภัยแล้งสลับน้ำท่วม | 3. ใช้ระบบ Early Warning ในพื้นที่เศรษฐกิจ</p>
+            </div>
+            <button class="text-expand-btn no-print" onclick="openTextModal('sec8')">🔍</button>
+        </div>
+        
+        <div class="footer">
+            <h1>THANK YOU</h1>
+            <div class="qr-container">
+                <div id="qrcode" title="คลิกเพื่อบันทึก QR Code" onclick="saveQRCode()"></div>
+                <span class="qr-text">SCAN OR CLICK TO SAVE QR</span>
             </div>
         </div>
     </div>
 
     <script>
-        // ฟังก์ชัน Scale โปสเตอร์ให้พอดีหน้าจอมือถือ
-        function scalePoster() {
-            const poster = document.getElementById('poster');
-            const wrapper = document.querySelector('.page-wrapper');
-            const windowWidth = window.innerWidth;
-            const posterWidth = 1122;
-            
-            const availableWidth = windowWidth - 40;
-            
-            if (windowWidth < posterWidth + 40) {
-                const scale = availableWidth / posterWidth;
-                poster.style.transform = `scale(${scale})`;
-                wrapper.style.height = (1587 * scale + 40) + 'px';
-            } else {
-                poster.style.transform = 'scale(1)';
-                wrapper.style.height = 'auto';
-            }
-        }
-
-        window.addEventListener('load', () => {
-            scalePoster();
+        // สร้าง QR Code เมื่อหน้าโหลด
+        window.addEventListener('load', function() {
             createRain();
-            initQRCode();
-        });
-        window.addEventListener('resize', scalePoster);
-
-        // สร้าง QR Code โชว์บนหน้าเว็บ
-        function initQRCode() {
             const qrElement = document.getElementById("qrcode");
-            qrElement.innerHTML = ""; 
-            new QRCode(qrElement, {
-                text: "https://harrizart.github.io/Utapao_harrizart/",
-                width: 256, height: 256,
-                colorDark : "#1e3a8a", colorLight : "#ffffff",
-                correctLevel : QRCode.CorrectLevel.H
-            });
-            const qrDisplay = qrElement.querySelector('img') || qrElement.querySelector('canvas');
-            if(qrDisplay) { qrDisplay.style.width = "75px"; qrDisplay.style.height = "75px"; }
-        }
+            if (qrElement) {
+                qrElement.innerHTML = ""; 
+                new QRCode(qrElement, {
+                    text: "https://harrizart.github.io/Utapao_harrizart/",
+                    width: 75,
+                    height: 75,
+                    colorDark : "#1e3a8a",
+                    colorLight : "#ffffff",
+                    correctLevel : QRCode.CorrectLevel.H
+                });
+            }
+        });
 
-        // ดาวน์โหลด QR Code 1500 DPI (4000px)
-        function saveQRCode() {
+        // ฟังก์ชันดาวน์โหลด QR Code คมชัดสูงเมื่อคลิกรูป
+        async function saveQRCode() {
             const tempDiv = document.createElement('div');
-            tempDiv.style.position = "absolute"; tempDiv.style.top = "-9999px";
+            tempDiv.style.padding = "40px";
+            tempDiv.style.background = "white";
+            tempDiv.style.position = "absolute";
+            tempDiv.style.top = "-9999px";
             document.body.appendChild(tempDiv);
+            
             new QRCode(tempDiv, {
                 text: "https://harrizart.github.io/Utapao_harrizart/",
-                width: 4000, height: 4000,
-                colorDark : "#000000", colorLight : "#ffffff",
+                width: 2000,
+                height: 2000,
+                colorDark : "#000000",
+                colorLight : "#ffffff",
                 correctLevel : QRCode.CorrectLevel.H
             });
+
             setTimeout(() => {
                 const canvas = tempDiv.querySelector('canvas');
                 if (canvas) {
                     const link = document.createElement('a');
-                    link.download = 'QR_Code_Utapao_1500DPI.png';
+                    link.download = 'QR_Code_Utapao_HighRes.png';
                     link.href = canvas.toDataURL("image/png", 1.0);
                     link.click();
                 }
@@ -531,11 +525,14 @@
             }, 600);
         }
 
-        // จัดการ Modal
+        // จัดการ Pop-up Modal รูปภาพและข้อความ
         function openModal(src) {
-            document.getElementById('modalImg').src = src;
-            document.getElementById('imgModal').style.display = 'flex';
+            const modal = document.getElementById('imgModal');
+            const modalImg = document.getElementById('modalImg');
+            modal.style.display = "flex";
+            modalImg.src = src;
         }
+        function closeModal() { document.getElementById('imgModal').style.display = "none"; }
 
         function openTextModal(sectionId) {
             const section = document.getElementById(sectionId);
@@ -543,10 +540,11 @@
             const content = section.querySelector('.deep-content').innerHTML;
             document.getElementById('textModalHeader').innerText = title;
             document.getElementById('textModalBody').innerHTML = content;
-            document.getElementById('textModal').style.display = 'flex';
+            document.getElementById('textModal').style.display = "flex";
         }
+        function closeTextModal() { document.getElementById('textModal').style.display = "none"; }
 
-        // ทำให้ภาพคลิกขยายได้ทั้งหมด
+        // ผูก Event ให้รูปภาพทั้งหมดคลิกขยายได้ (ยกเว้น QR)
         window.addEventListener('DOMContentLoaded', () => {
             const allImages = document.querySelectorAll('.poster-container img');
             allImages.forEach(img => {
@@ -557,6 +555,16 @@
                 });
             });
         });
+
+        // -------------------------------------------------------------------
+        // 🚀 ฟังก์ชันหลัก: สร้างรูปสำรอง (ป้องกันเบราว์เซอร์บล็อก CORS) 100%
+        // -------------------------------------------------------------------
+        function handleImageError(img, filename) {
+            img.onerror = null; 
+            const safeName = filename ? filename.replace(/['"<>]/g, '') : 'Image Not Found';
+            const svgContent = `<svg width="400" height="300" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="#f1f5f9"/><text x="50%" y="50%" font-family="sans-serif" font-size="18" fill="#94a3b8" text-anchor="middle" dominant-baseline="middle">${safeName}</text></svg>`;
+            img.src = "data:image/svg+xml;base64," + btoa(unescape(encodeURIComponent(svgContent)));
+        }
 
         // เอฟเฟกต์ฝน
         function createRain() {
@@ -573,94 +581,81 @@
             }
         }
 
-        // แก้ปัญหา CORS Error 100% ด้วยการสร้างภาพผ่าน Canvas
-        function handleImageError(img, filename) {
-            img.onerror = null;
-            const safeName = filename ? filename.replace(/['"<>]/g, '') : 'Image Not Found';
-            
-            // สร้างภาพ SVG ฝังในโค้ด (ไม่มีการเรียกไปที่ external URL)
-            const svgContent = `<svg width="400" height="300" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="#f1f5f9"/><text x="50%" y="50%" font-family="sans-serif" font-size="18" fill="#94a3b8" text-anchor="middle" dominant-baseline="middle">${safeName}</text></svg>`;
-            
-            img.src = "data:image/svg+xml;base64," + btoa(unescape(encodeURIComponent(svgContent)));
-        }
-
-        // การส่งออกรูปภาพที่แก้ปัญหาภาพแหว่ง (Incomplete Export)
+        // -------------------------------------------------------------------
+        // 🚀 การส่งออกรูปภาพ (ป้องกันภาพแหว่ง & จำกัด DPI ป้องกันเครื่องพัง)
+        // -------------------------------------------------------------------
         async function handleJPGExport() {
             const scaleSelect = document.getElementById('dpiSelect');
             const requestedScale = Number(scaleSelect.value) || 3;
             const poster = document.getElementById('poster');
             
-            // จำกัดสเกลไม่เกินขีดจำกัดความจำของ Browser
+            // ปกป้องเบราว์เซอร์ล่ม: จำกัดสเกลสูงสุดไว้ที่ 8 (800 DPI)
             let safeScale = requestedScale;
-            if (safeScale > 15) {
-                alert("⚠️ เพื่อป้องกันเบราว์เซอร์ล่มและทำงานไม่สำเร็จ ระบบจะปรับความคมชัดไม่เกิน 1500 DPI อัตโนมัติครับ");
-                safeScale = 15;
-            } else if (safeScale > 10) {
-                if(!confirm("⚠️ คำเตือน: การส่งออกความละเอียดสูงมาก (1500 DPI ขึ้นไป) อาจทำให้เบราว์เซอร์ค้าง\nต้องการดำเนินการต่อหรือไม่?")) return;
+            if (safeScale > 8) {
+                alert(`⚠️ ขนาดภาพที่คุณเลือกใหญ่เกินขีดจำกัดหน่วยความจำของเบราว์เซอร์ (จะทำให้ได้ไฟล์เสียสีเทา)\n\nระบบจะปรับความคมชัดสูงสุดที่เครื่องรองรับได้ (ประมาณ 800 DPI) ให้อัตโนมัติครับ เพื่อให้เปิดไฟล์ได้สมบูรณ์ 100%`);
+                safeScale = 8;
             }
 
             const overlay = document.getElementById('loading-overlay');
-            document.getElementById('loading-text').innerHTML = `กำลังประมวลผลโปสเตอร์ที่ ${safeScale*100} DPI... <br>กรุณารอ 10-30 วินาที ระบบกำลังประมวลผลเต็มแผ่น`;
+            document.getElementById('loading-text').innerHTML = `กำลังสร้างภาพความละเอียด ${safeScale*100} DPI... <br>โปรดรอสักครู่ ห้ามปิดหน้าต่างครับ`;
             overlay.style.display = 'flex';
             
-            // ล็อกพิกัด และปลด transform ทุกอย่างออก เพื่อให้แคปเจอร์ภาพได้เต็ม 100% ไม่แหว่ง
-            const originalTransform = poster.style.transform;
-            poster.style.transform = 'scale(1)';
-            window.scrollTo(0, 0); // เลื่อนขึ้นบนสุดเพื่อกันส่วนที่ถูกซ่อน
-            
-            // รอเบราว์เซอร์ปรับตัวให้เสร็จก่อนเริ่มแคป
+            window.scrollTo(0, 0); 
             await new Promise(r => setTimeout(r, 500));
 
             try {
                 const canvas = await html2canvas(poster, {
                     scale: safeScale, 
                     useCORS: true, 
-                    allowTaint: true,
-                    backgroundColor: '#ffffff', 
-                    width: 1122, 
-                    height: 1587,
-                    windowWidth: 1122,  // ระบุขนาดหน้าต่างที่ชัดเจน
-                    windowHeight: 1587,
-                    scrollX: 0,
-                    scrollY: 0
+                    allowTaint: true, 
+                    backgroundColor: '#ffffff',
+                    width: 1122, height: 1587,
+                    windowWidth: 1122, windowHeight: 1587,
+                    scrollX: 0, scrollY: 0
                 });
-                const link = document.createElement('a');
-                link.download = `Poster_Research_Utapao_${safeScale*100}DPI.jpg`;
-                link.href = canvas.toDataURL('image/jpeg', 0.95);
-                link.click();
+                
+                canvas.toBlob(function(blob) {
+                    if(!blob) {
+                        alert("❌ เครื่องสร้างภาพไม่สำเร็จ เนื่องจากไฟล์ใหญ่เกินกว่า RAM เครื่องจะรับไหว โปรดลดความคมชัดลงครับ");
+                    } else {
+                        const url = window.URL.createObjectURL(blob);
+                        const link = document.createElement('a');
+                        link.download = `Poster_Research_Utapao_${safeScale*100}DPI.jpg`;
+                        link.href = url;
+                        link.click();
+                        window.URL.revokeObjectURL(url);
+                    }
+                    overlay.style.display = 'none';
+                }, 'image/jpeg', 0.95);
+
             } catch (err) { 
                 alert("ส่งออกภาพล้มเหลว: " + err.message); 
-            } finally { 
-                poster.style.transform = originalTransform; 
-                overlay.style.display = 'none'; 
+                overlay.style.display = 'none';
             }
         }
 
-        // การส่งออก PDF
+        // -------------------------------------------------------------------
+        // 🚀 การส่งออก PDF (สร้าง PDF A3 ทันทีโดยไม่ต้องขึ้นหน้า Print)
+        // -------------------------------------------------------------------
         async function handlePDFExport() {
             const overlay = document.getElementById('loading-overlay');
             document.getElementById('loading-text').innerHTML = "กำลังสร้างไฟล์ PDF ขนาด A3... <br>กรุณารอประมาณ 10-20 วินาที";
             overlay.style.display = 'flex';
             
             const poster = document.getElementById('poster');
-            const originalTransform = poster.style.transform;
-            poster.style.transform = 'scale(1)';
             window.scrollTo(0, 0);
 
             await new Promise(r => setTimeout(r, 500));
 
             try {
                 const canvas = await html2canvas(poster, {
-                    scale: 4, // PDF ใช้ความละเอียดกลางๆ
+                    scale: 3, // ใช้ความละเอียด 300 DPI สำหรับ PDF เพื่อให้ไฟล์ไม่หนักเกินไป
                     useCORS: true, 
                     allowTaint: true,
                     backgroundColor: '#ffffff', 
-                    width: 1122, 
-                    height: 1587,
-                    windowWidth: 1122,
-                    windowHeight: 1587,
-                    scrollX: 0,
-                    scrollY: 0
+                    width: 1122, height: 1587,
+                    windowWidth: 1122, windowHeight: 1587,
+                    scrollX: 0, scrollY: 0
                 });
                 
                 const imgData = canvas.toDataURL('image/jpeg', 0.95);
@@ -672,7 +667,6 @@
             } catch (err) { 
                 alert("ส่งออก PDF ล้มเหลว กรุณาลองใหม่อีกครั้งครับ"); 
             } finally { 
-                poster.style.transform = originalTransform; 
                 overlay.style.display = 'none'; 
             }
         }
