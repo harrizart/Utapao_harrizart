@@ -214,19 +214,6 @@
 </head>
 <body>
 
-    <!-- ปุ่มส่งออก -->
-    <div class="export-controls no-print">
-        <select id="dpiSelect" style="padding: 6px; border-radius: 8px; font-size: 12px; border: 1px solid #cbd5e1; outline:none;">
-            <option value="1.5">ปกติ (150 DPI)</option>
-            <option value="3" selected>สูง (300 DPI)</option>
-            <option value="4">สูงมาก (400 DPI)</option>
-            <option value="5">โปสเตอร์ (500 DPI)</option>
-            <option value="8">คมชัดพิเศษ (800 DPI)</option>
-        </select>
-        <button class="export-btn" style="background:#dc2626;" onclick="handlePDFExport()">บันทึกเป็น PDF (A3)</button>
-        <button class="export-btn" style="background:var(--accent-color)" onclick="handleJPGExport()">บันทึกเป็นรูปภาพ</button>
-    </div>
-
     <!-- 🖼️ Image Lightbox Modal 🖼️ -->
     <div id="imgModal" class="image-modal no-print" onclick="closeModal()">
         <img id="modalImg" class="modal-img-content">
